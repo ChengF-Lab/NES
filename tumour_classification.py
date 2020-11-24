@@ -17,8 +17,9 @@ from sklearn.model_selection import KFold
 
 
 
-def readdate(name):
-    dataset = pd.read_csv("15patient_feature.txt",sep=',',header=None)
+def readdata(name):
+	name=name
+    dataset = pd.read_csv(name,sep=',',header=None)
     return dataset
 
 
@@ -26,7 +27,7 @@ def readdate(name):
 
 if __name__ == "__main__":
 
-	dataset=readdate('15patient(gene_neighbor_1280)_sum.txt')
+	dataset=readdata("patient_feature/15patient_feature.txt")
     plt.figure(figsize=(12,15))
     plt.subplots_adjust(hspace=0.3, wspace=0.3)
     for i,j,x,y in zip(range(1,3),L,c1,c2):
@@ -38,15 +39,15 @@ if __name__ == "__main__":
         train = lgb.Dataset(train_x, train_y)
         valid = lgb.Dataset(valid_x, valid_y, reference=train)
         parameters = {
-                      'num_leaves': [25,30,35, 40,45,50,55,60,65],
-                      'max_depth': [-1, 1, 3,5,7,10],
-                      'learning_rate': [0.01,0.03,0.05,0.06,0.07,0.1,0.5]
-                      'feature_fraction': [0.6, 0.7,0.8, 0.95],
-                      'bagging_fraction': [0.6, 0.7,0.8, 0.95],
-                      'bagging_freq': [2, 4, 5, 6,7, 8],
-                      'lambda_l1': [0, 0.4, 0.6,0.7],
-                      'lambda_l2': [0, 20,30, 40],
-                      'cat_smooth': [1, 10, 15, 20, 35]
+                      'num_leaves': [20,25,30,35, 40,45,50,55,60,65],
+                      'max_depth': [-1, 1, 3,5,7,9,10],
+                      'learning_rate': [0.01,0.03,0.05,0.06,0.07,0.1,0.2,0.3,0.5]
+                      'feature_fraction': [0.5,0.6, 0.7,0.8, 0.9,0.95],
+                      'bagging_fraction': [0.5,0.6, 0.7,0.8, 0.9,0.95],
+                      'bagging_freq': [2, 3,4, 5, 6,7, 8,9],
+                      'lambda_l1': [0, 0.4, 0.5,0.6,0.7,0.8,0.9],
+                      'lambda_l2': [0, 10,20,30, 40,50],
+                      'cat_smooth': [1, 10, 15, 20,30, 35,50]
         }
         gbm = lgb.LGBMClassifier(boosting_type='gbdt',
                                  objective = 'binary',
